@@ -103,6 +103,38 @@ public class NotaRepositoryImpl implements NotaRepository {
     }
 
     @Override
+    public List<Nota> findByAlunoId(int alunoId) throws SQLException {
+        String sql = """
+                SELECT id,
+                aluno_id,
+                aula_id,
+                valor 
+                FROM nota 
+                WHERE aluno_id = ?
+                """;
+
+        List<Nota> notas = new ArrayList<>();
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, alunoId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Nota nota = new Nota();
+                nota.setId(rs.getInt("id"));
+                nota.setAlunoId(rs.getInt("aluno_id"));
+                nota.setAulaId(rs.getInt("aula_id"));
+                nota.setValor(rs.getDouble("valor"));
+
+                notas.add(nota);
+            }
+        }
+        return notas;
+    }
+
+    @Override
     public void update(Nota nota) throws SQLException {
         String sql = """
                 UPDATE nota SET 
