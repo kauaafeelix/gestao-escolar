@@ -1,6 +1,7 @@
 package com.weg.centroweg.gestaoescolar.domain.repository;
 
 import com.weg.centroweg.gestaoescolar.domain.entity.Turma;
+import com.weg.centroweg.gestaoescolar.domain.entity.TurmaAluno;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,5 +13,5 @@ public interface TurmaRepository {
     Turma findById(int id) throws SQLException;
     void update(Turma turma) throws SQLException;
     void delete (int id) throws SQLException;
-
+    void saveTurmaAluno(TurmaAluno turmaAluno) throws SQLException;
 }
