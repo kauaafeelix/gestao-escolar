@@ -14,4 +14,6 @@ public interface TurmaRepository {
     void update(Turma turma) throws SQLException;
     void delete (int id) throws SQLException;
     void saveTurmaAluno(TurmaAluno turmaAluno) throws SQLException;
+    List<Integer> findAlunosByTurmaId(int turmaId) throws SQLException;
+    List<Turma> findTurmasByCursoId(int cursoId) throws SQLException;
 }
