@@ -13,4 +13,5 @@ public interface AlunoRepository {
     Aluno findById(int id) throws SQLException;
     void update(Aluno aluno) throws SQLException;
     void delete (int id) throws SQLException;
+    Aluno findByEmail(String email) throws SQLException;
 }
