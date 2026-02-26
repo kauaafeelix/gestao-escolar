@@ -158,4 +158,59 @@ public class TurmaRepositoryImpl implements TurmaRepository {
             ps.executeUpdate();
         }
     }
+
+    @Override
+    public List<Integer> findAlunosByTurmaId(int turmaId) throws SQLException {
+        String sql = """
+                SELECT aluno_id
+                FROM turma_aluno
+                WHERE turma_id = ?
+                """;
+
+        List<Integer> alunoIds = new ArrayList<>();
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, turmaId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                alunoIds.add(rs.getInt("aluno_id"));
+            }
+        }
+        return alunoIds;
+    }
+
+    @Override
+    public List<Turma> findTurmasByCursoId(int cursoId) throws SQLException {
+        String sql = """
+                SELECT id,
+                nome,
+                curso_id,
+                professor_id 
+                FROM turma
+                WHERE curso_id = ?
+                """;
+
+        List<Turma> turmas = new ArrayList<>();
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, cursoId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Turma turma = new Turma();
+                turma.setId(rs.getInt("id"));
+                turma.setNome(rs.getString("nome"));
+                turma.setCursoId(rs.getInt("curso_id"));
+                turma.setProfessorId(rs.getInt("professor_id"));
+
+                turmas.add(turma);
+            }
+        }
+        return turmas;
+    }
 }
