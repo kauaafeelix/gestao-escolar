@@ -116,7 +116,7 @@ import java.util.List;
                 ps.setString(2, aluno.getEmail());
                 ps.setString(3, aluno.getMatricula());
                 ps.setObject(4, aluno.getDataNascimento());
-                ps.setLong(5, aluno.getId());
+                ps.setInt(5, aluno.getId());
 
                 ps.executeUpdate();
             }
@@ -132,5 +132,32 @@ import java.util.List;
                 ps.setInt(1, id);
                 ps.executeUpdate();
             }
+    }
+
+    @Override
+    public Aluno findByEmail(String email) throws SQLException {
+        String sql = """
+            SELECT id, nome, email, matricula, data_nascimento 
+            FROM aluno 
+            WHERE email = ?
+            """;
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setEmail(rs.getString("email"));
+                aluno.setMatricula(rs.getString("matricula"));
+                aluno.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
+                return aluno;
+            }
+        }
+        return null;
     }
 }
