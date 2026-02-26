@@ -1,6 +1,7 @@
 package com.weg.centroweg.gestaoescolar.infra.persistence;
 
 import com.weg.centroweg.gestaoescolar.domain.entity.Turma;
+import com.weg.centroweg.gestaoescolar.domain.entity.TurmaAluno;
 import com.weg.centroweg.gestaoescolar.domain.repository.TurmaRepository;
 import com.weg.centroweg.gestaoescolar.infra.database.Conexao;
 import org.springframework.stereotype.Repository;
@@ -99,6 +100,26 @@ public class TurmaRepositoryImpl implements TurmaRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public void saveTurmaAluno(TurmaAluno turmaAluno) throws SQLException{
+        String sql = """
+                INSERT INTO turma_aluno (
+                turma_id,
+                aluno_id )
+                VALUES (?, ?)
+            """;
+
+        try (Connection conn = Conexao.conectar();
+        PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setInt(1, turmaAluno.getTurmaId());
+            ps.setInt(2, turmaAluno.getAlunoId());
+
+            ps.executeUpdate();
+        }
+
     }
 
     @Override
