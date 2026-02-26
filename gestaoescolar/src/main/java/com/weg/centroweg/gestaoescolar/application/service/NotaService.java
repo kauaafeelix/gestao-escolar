@@ -57,6 +57,19 @@ public class NotaService {
             }
         }
 
+        public List<NotaResponseDto> findByAlunoId(int alunoId){
+
+            try{
+                return repository.findByAlunoId(alunoId)
+                        .stream()
+                        .map(mapper::toDto)
+                        .toList();
+
+            } catch (SQLException e) {
+                throw new IllegalArgumentException("Ocorreu um erro ao buscar as notas do aluno");
+            }
+        }
+
         public NotaResponseDto update (NotaRequestDto notaRequestDto, int id){
 
             try{
