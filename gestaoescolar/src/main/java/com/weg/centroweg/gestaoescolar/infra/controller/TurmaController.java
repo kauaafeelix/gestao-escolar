@@ -5,6 +5,7 @@ import com.weg.centroweg.gestaoescolar.application.dto.turma.TurmaAlunoRequestDt
 import com.weg.centroweg.gestaoescolar.application.dto.turma.TurmaRequestDto;
 import com.weg.centroweg.gestaoescolar.application.dto.turma.TurmaResponseDto;
 import com.weg.centroweg.gestaoescolar.application.service.TurmaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class TurmaController {
     }
 
     @PostMapping
-    public TurmaResponseDto save(@RequestBody TurmaRequestDto turmaRequestDto) {
+    public TurmaResponseDto save(@Valid @RequestBody TurmaRequestDto turmaRequestDto) {
         return turmaService.save(turmaRequestDto);
     }
 
@@ -35,7 +36,7 @@ public class TurmaController {
     }
 
     @PutMapping("/{id}")
-    public TurmaResponseDto update(@RequestBody TurmaRequestDto turmaRequestDto, @PathVariable int id) {
+    public TurmaResponseDto update(@Valid @RequestBody TurmaRequestDto turmaRequestDto, @PathVariable int id) {
         return turmaService.update(turmaRequestDto, id);
     }
 
@@ -55,7 +56,7 @@ public class TurmaController {
     }
 
     @PostMapping("/aluno")
-    public void vincularAluno(@RequestBody TurmaAlunoRequestDto dto) {
+    public void vincularAluno(@Valid @RequestBody TurmaAlunoRequestDto dto) {
         turmaService.vincularAluno(dto);
     }
 }

@@ -5,6 +5,7 @@ import com.weg.centroweg.gestaoescolar.application.dto.curso.CursoResponseDto;
 import com.weg.centroweg.gestaoescolar.application.dto.turma.TurmaResponseDto;
 import com.weg.centroweg.gestaoescolar.application.service.CursoService;
 import com.weg.centroweg.gestaoescolar.application.service.TurmaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class CursoController {
     }
 
     @PostMapping
-    public CursoResponseDto save(@RequestBody CursoRequestDto cursoRequestDto) {
+    public CursoResponseDto save(@Valid @RequestBody CursoRequestDto cursoRequestDto) {
         return cursoService.save(cursoRequestDto);
     }
 
@@ -42,7 +43,7 @@ public class CursoController {
     }
 
     @PutMapping("/{id}")
-    public CursoResponseDto update(@RequestBody CursoRequestDto cursoRequestDto, @PathVariable int id) {
+    public CursoResponseDto update(@Valid @RequestBody CursoRequestDto cursoRequestDto, @PathVariable int id) {
         return cursoService.update(cursoRequestDto, id);
     }
 

@@ -3,6 +3,7 @@ package com.weg.centroweg.gestaoescolar.infra.controller;
 import com.weg.centroweg.gestaoescolar.application.dto.aluno.AlunoRequestDto;
 import com.weg.centroweg.gestaoescolar.application.dto.aluno.AlunoResponseDto;
 import com.weg.centroweg.gestaoescolar.application.service.AlunoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class AlunoController {
     }
 
     @PostMapping
-    public AlunoResponseDto save(@RequestBody AlunoRequestDto alunoRequestDto) {
+    public AlunoResponseDto save(@Valid  @RequestBody AlunoRequestDto alunoRequestDto) {
         return alunoService.save(alunoRequestDto);
     }
 
@@ -34,7 +35,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public AlunoResponseDto update(@RequestBody AlunoRequestDto alunoRequestDto, @PathVariable int id) {
+    public AlunoResponseDto update(@Valid @RequestBody AlunoRequestDto alunoRequestDto, @PathVariable int id) {
         return alunoService.update(alunoRequestDto, id);
     }
 

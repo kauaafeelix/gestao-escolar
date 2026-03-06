@@ -3,6 +3,7 @@ package com.weg.centroweg.gestaoescolar.infra.controller;
 import com.weg.centroweg.gestaoescolar.application.dto.nota.NotaRequestDto;
 import com.weg.centroweg.gestaoescolar.application.dto.nota.NotaResponseDto;
 import com.weg.centroweg.gestaoescolar.application.service.NotaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class NotaController {
     }
 
     @PostMapping
-    public NotaResponseDto save(@RequestBody NotaRequestDto notaRequestDto) {
+    public NotaResponseDto save(@Valid @RequestBody NotaRequestDto notaRequestDto) {
         return notaService.save(notaRequestDto);
     }
 
@@ -38,7 +39,7 @@ public class NotaController {
     }
 
     @PutMapping("/{id}")
-    public NotaResponseDto update(@RequestBody NotaRequestDto notaRequestDto, @PathVariable int id) {
+    public NotaResponseDto update(@Valid @RequestBody NotaRequestDto notaRequestDto, @PathVariable int id) {
         return notaService.update(notaRequestDto, id);
     }
 
