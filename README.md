@@ -11,9 +11,9 @@ Sistema de gestão escolar desenvolvido com Java e Spring Boot, utilizando JDBC 
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Camadas da Aplicação](#camadas-da-aplicação)
 - [Endpoints da API](#endpoints-da-api)
+- [Documentação Swagger](#documentação-swagger)
 - [Exemplos de Requisições](#exemplos-de-requisições)
 - [Como Rodar Localmente](#como-rodar-localmente)
-- [Testando com Postman](#testando-com-postman)
 
 ---
 
@@ -43,6 +43,7 @@ O **Gestão Escolar** é uma API REST para gerenciamento de instituições de en
 | MySQL               | 8+       | Banco de dados relacional                |
 | MySQL Connector/J   | —        | Driver JDBC para MySQL                   |
 | Spring Boot DevTools| —        | Recarregamento automático em dev         |
+| SpringDoc OpenAPI   | 2.8.16   | Documentação Swagger UI da API           |
 
 ---
 
@@ -71,6 +72,7 @@ gestao-escolar/
         │   │   │   ├── entity/                     ← entidades de domínio
         │   │   │   └── repository/                 ← interfaces de repositório
         │   │   └── infra/
+        │   │       ├── config/                     ← configurações (OpenAPI/Swagger)
         │   │       ├── controller/                 ← controllers REST
         │   │       ├── database/                   ← configuração da conexão JDBC
         │   │       └── persistence/                ← implementações dos repositórios
@@ -83,6 +85,9 @@ gestao-escolar/
 ---
 
 ## 🏗️ Camadas da Aplicação
+
+### `infra/config`
+Classe `OpenApiConfig` responsável pela configuração do **Swagger / OpenAPI**, definindo título, descrição, versão e informações de contato da API.
 
 ### `infra/controller`
 Contém os **controllers REST** (Spring `@RestController`). Recebem as requisições HTTP, delegam ao Service e retornam os Response DTOs.
@@ -186,6 +191,24 @@ A API roda por padrão em `http://localhost:8080`.
 | `GET`    | `/nota/aluno/{alunoId}` | Listar notas de um aluno           |
 | `PUT`    | `/nota/{id}`            | Atualizar nota                     |
 | `DELETE` | `/nota/{id}`            | Remover nota                       |
+
+---
+
+## 📖 Documentação Swagger
+
+Com a aplicação em execução, acesse a interface interativa do Swagger UI em:
+
+```
+http://localhost:8080/docs
+```
+
+A documentação permite:
+
+- Visualizar todos os endpoints disponíveis organizados por recurso
+- Consultar os schemas de request e response de cada operação
+- Testar os endpoints diretamente pelo navegador, sem precisar de ferramentas externas
+
+> A especificação OpenAPI em formato JSON também está disponível em `http://localhost:8080/v3/api-docs`.
 
 ---
 
@@ -399,31 +422,6 @@ cd gestaoescolar
 ./mvnw clean package
 java -jar target/gestaoescolar-0.0.1-SNAPSHOT.jar
 ```
-
----
-
-## 🧪 Testando com Postman
-
-Como o projeto não possui Swagger/OpenAPI configurado, você pode testar os endpoints usando o **Postman** ou **cURL** (conforme os exemplos acima).
-
-### Importar Coleção no Postman
-
-1. Abra o **Postman**
-2. Clique em **Import** → **Raw Text** (ou **File** se exportar uma coleção)
-3. Configure a variável de ambiente `base_url` como `http://localhost:8080`
-4. Use os endpoints listados na seção [Endpoints da API](#endpoints-da-api)
-
-### Sugestão de Ordem para Testes
-
-Para evitar erros de chave estrangeira, crie os registros nesta ordem:
-
-1. `POST /professor` → cria o professor
-2. `POST /curso` → cria o curso
-3. `POST /turma` → cria a turma (usando `professorId` e `cursoId`)
-4. `POST /aluno` → cria o aluno
-5. `POST /turma/aluno` → vincula aluno à turma
-6. `POST /aula` → cria a aula (usando `turmaId`)
-7. `POST /nota` → lança a nota (usando `alunoId` e `aulaId`)
 
 ---
 
